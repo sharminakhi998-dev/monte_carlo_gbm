@@ -2,14 +2,36 @@
 
 Simulates possible future stock price paths using Geometric Brownian Motion (the same math behind Black-Scholes).
 
-Basically: instead of guessing one future price, we simulate thousands of "what if" scenarios and look at the spread.
+Basically: instead of guessing one future price, this code simulates thousands of "what if" scenarios and look at the spread.
 
 ## How it works
 
-- Uses the formula $`S_t = S0 * exp(sigma * W_t + mu*t - 0.5*sigma^2*t)`$
-- `W_t` = Brownian motion, built from random normal steps
-- Run it many times → get a range of possible outcomes, not just one number
+The stock price follows a Geometric Brownian Motion:
 
+$$
+dS_t = \mu S_t\,dt + \sigma S_t\,dW_t
+$$
+
+Its exact solution is:
+
+$$
+S_t = S_0 \exp\left[\left(\mu-\frac{1}{2}\sigma^2\right)t+\sigma W_t\right]
+$$
+
+where:
+
+- $S_0$ is the initial stock price
+- $\mu$ is the expected return or drift
+- $\sigma$ is the volatility
+- $W_t$ is a Brownian motion
+
+Brownian motion is generated using normally distributed increments:
+
+$$
+\Delta W_i \sim \mathcal{N}(0,\Delta t)
+$$
+
+The simulation generates many possible stock-price paths, giving a range of potential outcomes rather than a single predicted price.
 ## Usage
 
 ```bash
