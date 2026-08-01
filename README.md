@@ -37,4 +37,4 @@ simulate_gbm_paths(
 
 ## Why
 
-Made this while studying continuous-time finance (Black-Scholes / GBM). Good way to actually *see* what "volatility" and "drift" do instead of just staring at the formula.
+Made this while studying continuous-time finance (Black-Scholes / GBM). Good way to actually *see* what "volatility" and "drift" do instead of just building the formula.
