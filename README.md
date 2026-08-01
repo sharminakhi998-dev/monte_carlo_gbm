@@ -31,7 +31,9 @@ $$
 \Delta W_i \sim \mathcal{N}(0,\Delta t)
 $$
 
+
 The simulated stock price is then updated using
+
 $$
 S_{t_{i+1}}
 =
