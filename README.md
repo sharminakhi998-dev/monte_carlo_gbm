@@ -1,6 +1,6 @@
 # Monte Carlo Stock Price Simulator 📈
 
-Simulates possible future stock price paths using Geometric Brownian Motion (the same math behind Black-Scholes).
+This code simulates possible future stock price paths using Geometric Brownian Motion (the same math behind Black-Scholes).
 
 Basically: instead of guessing one future price, this code simulates thousands of "what if" scenarios and look at the spread.
 
