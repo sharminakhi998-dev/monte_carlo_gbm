@@ -1,9 +1,32 @@
+"""Monte Carlo simulation of Geometric Brownian Motion (GBM)
+-----------------------------------------------------------
+This simulates possible future paths of a stock price using the same
+model taught in most intro mathematical finance courses (Black-Scholes-Merton):
+ 
+    S_t = S_0 * exp( sigma * W_t + mu * t - 0.5 * sigma^2 * t )"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 
 def simulate_gbm_paths(s0= 100, mu= 0.05, sigma= 0.3, T= 1.0, n_steps= 252, n_paths= 1000, seed= None):
-
-
+    """
+    Simulate multiple GBM price paths.
+ 
+    Parameters
+    ----------
+    s0       : starting price
+    mu       : drift (expected annual return)
+    sigma    : volatility (annual)
+    T        : total time horizon, in years
+    n_steps  : number of time steps (252 = roughly one trading year, daily steps)
+    n_paths  : number of simulated paths (the "Monte Carlo trials")
+    seed     : set a fixed seed for reproducible results (optional)
+ 
+    Returns
+    -------
+    times : 1D array of time points, shape (n_steps + 1,)
+    paths : 2D array of simulated prices, shape (n_paths, n_steps + 1)
+    """
   if seed is not None:
     np.random.seed(seed)
 
