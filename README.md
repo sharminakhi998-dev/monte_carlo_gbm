@@ -27,27 +27,6 @@ where:
 
 Brownian motion is generated using normally distributed increments:
 
-$$
-\Delta W_i \sim \mathcal{N}(0,\Delta t)
-$$
-
-
-The simulated stock price is then updated using
-
-$$
-S_{t_{i+1}}
-=
-S_{t_i}
-\exp\left[
-\left(\mu-\frac{1}{2}\sigma^2\right)\Delta t
-+\sigma\Delta W_i
-\right].
-$$
-
-Repeating this process over all time steps generates one possible stock-price path. Running the simulation many times produces a range of possible outcomes rather than a single estimate.
-
-For a discrete time step $\Delta t$, the Brownian increment satisfies
-
 ```math
 \Delta W_i \sim \mathcal{N}(0,\Delta t).
 ```
