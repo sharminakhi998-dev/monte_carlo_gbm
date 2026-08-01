@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Volatility Comparison Animation</title>
+<style>
+  body { font-family: -apple-system, sans-serif; background: #fdfaf5; padding: 24px; }
+  h1 { font-size: 18px; }
+  .sub { font-size: 13px; color: #898781; margin-bottom: 16px; }
+  .row { display: flex; gap: 16px; }
+  .col { flex: 1; }
+  .col-title { font-size: 13px; text-align: center; margin-bottom: 4px; color: #898781; }
+  button { font-size: 13px; padding: 6px 14px; margin-bottom: 12px; cursor: pointer; }
+</style>
+</head>
+<body>
+<h1>Monte Carlo GBM: Low vs High Volatility</h1>
+<p class="sub">30 simulated paths each, same drift (mu = 0.05), different volatility</p>
+<button id="replay">Replay</button>
+<div class="row">
+  <div class="col">
+    <p class="col-title">Low volatility (sigma = 0.05)</p>
+    <canvas id="lowVolChart" width="500" height="300"></canvas>
+  </div>
+  <div class="col">
+    <p class="col-title">High volatility (sigma = 0.6)</p>
+    <canvas id="highVolChart" width="500" height="300"></canvas>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const s0 = 100, mu = 0.05, T = 1, steps = 60, nPaths = 15;
+const dt = T / steps;
+const colors = ['#2a78d6','#eb6834','#1baf7a','#e87ba4','#4a3aa7','#c9a63e','#5cbfc9','#b05ad6','#7a9e3a','#d65a6e','#3aa7c4','#a68a4a','#6a7ad6','#d68a3a','#4ac48a'];
+
+function gaussian() {
+  const u1 = Math.random(), u2 = Math.random();
+  return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+}
+
+function simulatePaths(sigma) {
+  const result = [];
+  for (let p = 0; p < nPaths; p++) {
+    let W = 0;
+    const path = [s0];
+    for (let i = 1; i <= steps; i++) {
+      W += gaussian() * Math.sqrt(dt);
+      const t = i * dt;
+      path.push(s0 * Math.exp(sigma * W + (mu - 0.5 * sigma * sigma) * t));
+    }
+    result.push(path);
+  }
+  return result;
+}
+
+const labels = Array.from({length: steps + 1}, (_, i) => (i * dt).toFixed(2));
+
+function makeChart(canvasId) {
+  return new Chart(document.getElementById(canvasId), {
+    type: 'line',
+    data: { labels: labels, datasets: colors.map(c => ({ data: [], borderColor: c, backgroundColor: 'transparent', borderWidth: 1, pointRadius: 0, tension: 0.1 })) },
+    options: {
+      responsive: false, animation: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { maxTicksLimit: 5 } },
+        y: { min: 40, max: 200 }
+      }
+    }
+  });
+}
+
+const lowChart = makeChart('lowVolChart');
+const highChart = makeChart('highVolChart');
+let lowPaths, highPaths, frame, timer;
+
+function playAnimation() {
+  clearInterval(timer);
+  lowPaths = simulatePaths(0.05);
+  highPaths = simulatePaths(0.6);
+  lowChart.data.datasets.forEach(ds => ds.data = []);
+  highChart.data.datasets.forEach(ds => ds.data = []);
+  frame = 0;
+  timer = setInterval(() => {
+    frame++;
+    lowChart.data.datasets.forEach((ds, i) => ds.data = lowPaths[i].slice(0, frame + 1));
+    highChart.data.datasets.forEach((ds, i) => ds.data = highPaths[i].slice(0, frame + 1));
+    lowChart.update('none');
+    highChart.update('none');
+    if (frame >= steps) clearInterval(timer);
+  }, 45);
+}
+
+document.getElementById('replay').addEventListener('click', playAnimation);
+playAnimation();
+</script>
+</body>
+</html>
