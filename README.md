@@ -6,7 +6,7 @@ Basically: instead of guessing one future price, we simulate thousands of "what 
 
 ## How it works
 
-- Uses the formula `S_t = S0 * exp(sigma * W_t + mu*t - 0.5*sigma^2*t)`
+- Uses the formula $$`S_t = S0 * exp(sigma * W_t + mu*t - 0.5*sigma^2*t)`$$
 - `W_t` = Brownian motion, built from random normal steps
 - Run it many times → get a range of possible outcomes, not just one number
 
