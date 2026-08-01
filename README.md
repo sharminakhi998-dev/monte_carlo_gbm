@@ -36,17 +36,25 @@ The simulation generates many possible stock-price paths, giving a range of pote
 
 
 7777777777777777
-
 For a discrete time step $\Delta t$, the Brownian increment satisfies
 
-$$\Delta W_i \sim \mathcal{N}(0,\Delta t),$$
-
-and the simulated stock price is updated using
 $$
-\S_{t_i}\exp\left[\left(\mu-\frac{1}{2}\sigma^2\right)\Delta t+\sigma\Delta W_i\right]
+\Delta W_i \sim \mathcal{N}(0,\Delta t).
 $$
 
-Running this process many times produces a range of possible outcomes rather than a single estimate
+The simulated stock price is then updated using
+
+$$
+S_{t_{i+1}}
+=
+S_{t_i}
+\exp\left[
+\left(\mu-\frac{1}{2}\sigma^2\right)\Delta t
++\sigma\Delta W_i
+\right].
+$$
+
+Repeating this process over all time steps generates one possible stock-price path. Running the simulation many times produces a range of possible outcomes rather than a single estimate.
 ## Usage
 
 ```bash
