@@ -32,8 +32,6 @@ $$
 $$
 
 The simulated stock price is then updated using
-
-
 $$
 S_{t_{i+1}}
 =
